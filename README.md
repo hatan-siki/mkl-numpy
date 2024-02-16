@@ -1,6 +1,6 @@
 # mkl-numpy
 
-numpyをintel-mklに紐づけてインストールします.
+numpyをintel-mklに紐づけてインストールします.  
 これにより行列計算などが非常に高速化します.
 
 ついでにscikit-learn-intelexもインストールします.  
