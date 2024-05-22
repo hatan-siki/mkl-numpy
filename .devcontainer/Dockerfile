@@ -3,6 +3,7 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 USER root
 RUN mkdir -p /root/workspace
+COPY requirements.txt /root/workspace
 WORKDIR /root/workspace
 
 # intel-mkl
@@ -38,3 +39,17 @@ RUN update-alternatives --set python /usr/bin/python3.8
 RUN python -m pip install --upgrade pip
 RUN python -m pip wheel --no-binary :all: numpy
 RUN python -m pip install --force-reinstall numpy*.whl
+RUN python -m pip install -r requirements.txt
+
+## ターミナルの表示を変更
+RUN curl -o ~/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash \
+    -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+
+RUN echo 'PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc && \
+    echo 'alias python="python3.8"' >> ~/.bashrc && \
+    . $HOME/.bashrc
+
+RUN echo 'source ~/.git-completion.bash' >> ~/.bashrc
+RUN echo 'source ~/.git-prompt.sh\nGIT_PS1_SHOWDIRTYSTATE=true' >> ~/.bashrc
+ENV PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1 " (%s)")\$ '
+RUN echo "PS1='"${PS1}"'" >> ~/.bashrc
