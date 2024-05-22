@@ -1,5 +1,4 @@
 from timeit import default_timer as timer
-from IPython.display import HTML
 from sklearn import metrics
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
